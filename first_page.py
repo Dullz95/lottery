@@ -59,8 +59,7 @@ class Logging:
             if calc() == 100 and email_checker() == 100:
                 messagebox.showinfo("CONGRATULATIONS","LETS PLAY!!!")
                 import main
-
-        # def clear():
+# def clear():
         #
         #  self.first_entry.delete(0, END)
         #  self.email_ent.delete(0, END)

@@ -4,5 +4,5 @@ from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Weather")
-root.geometry("800x800")
+root.geometry("400x400")
 root.configure(bg="black")

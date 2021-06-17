@@ -2,15 +2,22 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
+import random
 
 root = tk.Tk()
 root.title("Weather")
-root.geometry("800x800")
+root.geometry("800x1000")
 root.configure(bg="black")
 
 entry1 = []
 entry2 = []
 entry3 = []
+randomlist = []
+winnings1= []
+winnings2=[]
+winnings3=[]
+earnings = [0, 0, 20, 100.50, 2384, 8584, 10000000]
+
 
 
 class main:
@@ -33,16 +40,38 @@ class main:
                 else:
                     messagebox.showerror("Error","you can only select the same number once per entry")
 
-        # labels
-        self.ent1 = Label(master, text=entry1)
-        self.ent1.place(x=100,y=500)
-        self.ent2 = Label(master,text=entry2)
-        self.ent2.place(x=100,y=600)
-        self.ent3=Label(master,text=entry3)
-        self.ent3.place(x=100,y=700)
+        # frames within master
+        self.frame = Frame(master, width=700, height=300, bg="", highlightbackground="gold", highlightthickness=15)
+        self.frame.place(x=50, y=120)
+        self.frame_two = Frame(master, width=330, height=250, bg="", highlightbackground="gold", highlightthickness=15)
+        self.frame_two.place(x=50, y=445)
+        self.frame_three = Frame(master, width=330, height=250, bg="", highlightbackground="gold",highlightthickness=15)
+        self.frame_three.place(x=420, y=445)
+        self.frame_four = Frame(master, width=700, height=230, bg="", highlightbackground="gold", highlightthickness=15)
+        self.frame_four.place(x=50, y=720)
+
+        # labels for frame 2
+        self.ent1 = Label(self.frame_two, text="", textvariable=entry1, fg="gold",bg="black")
+        self.ent1.place(x=50,y=30)
+        self.ent2 = Label(self.frame_two,text="",fg="gold",bg="black", textvariable=entry2)
+        self.ent2.place(x=50,y=100)
+        self.ent3=Label(self.frame_two,text="",fg="gold",bg="black", textvariable=entry3)
+        self.ent3.place(x=50,y=170)
+
+        # labels for frame 3
+        self.mainwin=Label(self.frame_three,text=randomlist.sort(),bg="gold")
+        self.mainwin.place(x=100,y=30)
+        self.ent1_win=Label(self.frame_three,text="",bg="gold")
+        self.ent1_win.place(x=100,y=60)
+        self.ent2_win = Label(self.frame_three, text="", bg="gold")
+        self.ent2_win.place(x=100, y=120)
+        self.ent3_win = Label(self.frame_three, text="", bg="gold")
+        self.ent3_win.place(x=100, y=180)
+
+        self.total=Label(self.frame_four,text="",bg="gold")
+        self.total.place(x=100,y=100)
         #buttons
-        self.frame=Frame(master,width=700,height=300,bg="red",highlightbackground="gold", highlightthickness=15)
-        self.frame.place(x=50,y=120)
+
         self.one = Button(master, text="1", bg="gold", width=1, command=lambda: adding(1))
         self.one.place(x=100, y=200)
         self.two = Button(master, text="2", bg="gold", width=1, command=lambda: adding(2))
@@ -142,7 +171,53 @@ class main:
         self.forty_nine = Button(master, text="49", bg="gold", width=31, command=lambda: adding(49))
         self.forty_nine.place(x=260, y=322)
 
-    # def play():
+        def play():
+
+            while len(randomlist) < 6:
+                n = random.randint(1, 49)
+                if n not in randomlist:
+                    randomlist.append(n)
+                    randomlist.sort()
+                    self.mainwin.config(text=randomlist)
+            for x in randomlist:
+                if x in entry1:
+                    winnings1.append(x)
+                    self.ent1_win.config(text=str(len(winnings1)) + "  R" + str(earnings[len(winnings1)]))
+            for x in randomlist:
+                if x in entry2:
+                    winnings2.append(x)
+                    self.ent2_win.config(text=str(len(winnings2)) + "   R" + str(earnings[len(winnings2)]))
+            for x in randomlist:
+                if x in entry3:
+                    winnings3.append(x)
+                    self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]))
+            total ="  total winnings:  R" + str(earnings[len(winnings1)]+earnings[len(winnings2)]+earnings[len(winnings3)])
+            self.total.config(text=total)
+
+        def play_again():
+            entry1.clear()
+            entry2.clear()
+            entry3.clear()
+            randomlist.clear()
+            winnings1.clear()
+            winnings2.clear()
+            winnings3.clear()
+            self.ent1.config(text="")
+            self.ent2.config(text="")
+            self.ent3.config(text="")
+            self.mainwin.config(text="")
+            self.ent1_win.config(text="")
+            self.ent2_win.config(text="")
+            self.ent3_win.config(text="")
+
+        self.play_ag = Button(self.frame_four, text="PLAY AGAIN", bg="gold", command=play_again)
+        self.play_ag.place(x=50, y=50)
+
+#       function button
+        self.play=Button(self.frame_two,text="PLAY",bg="gold",command=play)
+        self.play.place(x=200,y=170)
+
+
 
 
 m = main(root)
