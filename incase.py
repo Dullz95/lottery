@@ -6,18 +6,14 @@ from tkinter import messagebox
 from datetime import datetime, timedelta, date
 from PIL import ImageTk,Image
 import re
-
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 #create window
 
-root = tk.Tk()
-root.title("Weather")
-root.geometry("800x400")
-root.configure(bg="black")
-
-regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-
-class Logging:
-    def __init__(self, master):
+def log():
+        root = tk.Tk()
+        root.title("Weather")
+        root.geometry("800x400")
+        root.configure(bg="black")
         #image
         self.pic = Canvas(master, width=800, height=400, bg="black")
         self.pic.place(x=0, y=0)
@@ -58,9 +54,6 @@ class Logging:
                     messagebox.showerror("Error","Invalid Email")
             if calc() == 100 and email_checker() == 100:
                 messagebox.showinfo("CONGRATULATIONS","LETS PLAY!!!")
-                text_file = open("PlayerID.txt",'+w')
-                text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get())
-                text_file.close()
                 import main
 # def clear():
         #
@@ -71,7 +64,7 @@ class Logging:
         self.qual = Button(master, text="Check if i qualify", command=qualify, bg="gold",pady=5,padx=5, width=15,height=5)
         self.qual.place(x=450,y=100)
 
-
+    #
 l = Logging(root)
 
 root.mainloop()

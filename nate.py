@@ -7,25 +7,25 @@ import requests
 from tkinter import ttk
 
 root = tk.Tk()
-root.title("Play The LOTTO!!!")
+root.title("Weather")
 root.geometry("800x1000")
 root.configure(bg="black")
 
-entry1 = []
-entry2 = []
-entry3 = []
-randomlist = []
-winnings1= []
-winnings2=[]
-winnings3=[]
-earnings = [0, 0, 20, 100.50, 2384, 8584, 10000000]
-total = ''
-banks = ["Nedbank","ABSA","FNB","Standard Bank"]
+
+def boxes(self):
+    self.entry1 = []
+    self.entry2 = []
+    self.entry3 = []
+    self.randomlist = []
+    self.winnings1= []
+    self.winnings2=[]
+    self.winnings3=[]
+    self.earnings = [0, 0, 20, 100.50, 2384, 8584, 10000000]
+    self.total = ''
 
 
 class main:
     def __init__(self,master):
-
         def adding(add):
             if len(entry1) < 6 and add not in entry1:
                 entry1.append(add)
@@ -45,7 +45,7 @@ class main:
                     messagebox.showerror("Error","you can only select the same number once per entry")
         def play():
             global total
-        # if len(entry1) ==6 and len(entry2) ==6 and len(entry3) ==6:
+            # if len(entry1) ==6 and len(entry2) ==6 and len(entry3) ==6:
             while len(randomlist) < 6:
                 n = random.randint(1, 49)
                 if n not in randomlist:
@@ -66,16 +66,14 @@ class main:
                     self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]))
             total ="  total winnings:  R" + str(earnings[len(winnings1)]+earnings[len(winnings2)]+earnings[len(winnings3)])
             self.total.config(text=total)
-
-
-        # else:
-        #       messagebox.showerror("Error","Please fill entries")
+            # else:
+            #     messagebox.showerror("Error","Please fill entries")
 
         def convert_to_new_currency():
             if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
                 convert_currency()
-            else:
-             messagebox.showerror("Error", "You do not have any winnings to convert")
+            # else:
+            #     messagebox.showerror("Error", "You do not have any winnings to claim")
 
         def convert_currency():
             root = Tk()
@@ -151,63 +149,23 @@ class main:
 
         def play_again():
             self.ent1.config(text="")
-            entry1.clear()
+            #entry1.clear()
             self.ent2.config(text="")
-            entry2.clear()
+            #entry2.clear()
             self.ent3.config(text="")
-            entry3.clear()
+            #entry3.clear()
             self.mainwin.config(text="")
-            randomlist.clear()
+            #randomlist.clear()
             self.ent1_win.config(text="")
-            winnings1.clear()
+            #winnings1.clear()
             self.ent2_win.config(text="")
-            winnings2.clear()
+            #winnings2.clear()
             self.ent3_win.config(text="")
-            winnings3.clear()
-
+            #winnings3.clear()
 
         def destroy():
             messagebox.showinfo("warning", "closing game")
             master.destroy()
-
-        def claim():
-            if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
-                bank_details()
-                text_file = open("PlayerID.txt", '+a')
-                text_file.write(
-                    "\nEntry 1 : " + str(entry1) + "\nEntry 2 : " + str(entry2) + "\nEntry 3 : " + str(entry3))
-                text_file.close()
-            else:
-             messagebox.showerror("Error", "You do not have any winnings to claim")
-        def bank_details():
-
-            root = tk.Tk()
-            root.title("Weather")
-            root.geometry("800x400")
-            root.configure(bg="black")
-
-            # labels and entries
-            us_name=Label(root,text="Account holder name")
-            us_name.place(x=50,y=100)
-            us_ent=Entry(root)
-            us_ent.place(x=50,y=150)
-
-            acc_no= Label(root, text="Account number")
-            acc_no.place(x=50, y=200)
-            acc_ent = Entry(root)
-            acc_ent.place(x=50, y=250)
-
-            currency_cb = ttk.Combobox(root)
-            currency_cb['values'] = banks
-            currency_cb['state'] = 'readonly'
-            currency_cb.set('Select Bank')
-            currency_cb.place(x=50, y=300)
-
-
-            root.mainloop()
-
-
-
 
 
         # frames within master
@@ -341,18 +299,17 @@ class main:
         self.forty_nine = Button(master, text="49", bg="gold", width=31, command=lambda: adding(49))
         self.forty_nine.place(x=260, y=322)
 
-        #       function buttons
+        #       function button
 
-        self.play = Button(self.frame_two, text="PLAY", bg="gold", command=play)
-        self.play.place(x=200, y=170)
         self.play_ag = Button(self.frame_four, text="PLAY AGAIN", bg="gold", command=play_again)
         self.play_ag.place(x=50, y=50)
         self.claim = Button(self.frame_four, text="convert", bg="gold", command=convert_to_new_currency)
         self.claim.place(x=500, y=100)
+
+        self.play=Button(self.frame_two,text="PLAY",bg="gold",command=play)
+        self.play.place(x=200,y=170)
         self.exit = Button(self.frame_four, text="exit", bg="red", command=destroy)
         self.exit.place(x=600, y=100)
-        self.claim = Button(self.frame_four, text="claim", bg="gold", command=claim)
-        self.claim.place(x=400, y=100)
 
 
 
