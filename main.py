@@ -45,31 +45,37 @@ class main:
                     messagebox.showerror("Error","you can only select the same number once per entry")
         def play():
             global total
-        # if len(entry1) ==6 and len(entry2) ==6 and len(entry3) ==6:
-            while len(randomlist) < 6:
-                n = random.randint(1, 49)
-                if n not in randomlist:
-                    randomlist.append(n)
-                    randomlist.sort()
-                    self.mainwin.config(text=randomlist)
-            for x in randomlist:
-                if x in entry1:
-                    winnings1.append(x)
-                    self.ent1_win.config(text=str(len(winnings1)) + "  R" + str(earnings[len(winnings1)]))
-            for x in randomlist:
-                if x in entry2:
-                    winnings2.append(x)
-                    self.ent2_win.config(text=str(len(winnings2)) + "   R" + str(earnings[len(winnings2)]))
-            for x in randomlist:
-                if x in entry3:
-                    winnings3.append(x)
-                    self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]))
-            total ="  total winnings:  R" + str(earnings[len(winnings1)]+earnings[len(winnings2)]+earnings[len(winnings3)])
-            self.total.config(text=total)
+            if len(entry1) ==6 and len(entry2) ==6 and len(entry3) ==6:
+                    while len(randomlist) < 6:
+                        n = random.randint(1, 49)
+                        if n not in randomlist:
+                            randomlist.append(n)
+                            randomlist.sort()
+                            self.mainwin.config(text=randomlist)
+                    for x in randomlist:
+                        if x in entry1:
+                            winnings1.append(x)
+                            self.ent1_win.config(text=str(len(winnings1)) + "  R" + str(earnings[len(winnings1)]))
+                    for x in randomlist:
+                        if x in entry2:
+                            winnings2.append(x)
+                            self.ent2_win.config(text=str(len(winnings2)) + "   R" + str(earnings[len(winnings2)]))
+                    for x in randomlist:
+                        if x in entry3:
+                            winnings3.append(x)
+                            self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]))
+                    total ="  total winnings:  R" + str(earnings[len(winnings1)]+earnings[len(winnings2)]+earnings[len(winnings3)])
+                    self.total.config(text=total)
+                    text_file = open("PlayerID.txt", '+a')
+                    text_file.write(
+                        "\nEntry 1 : " + str(entry1) + "\nWinning in numbers entry1: "+str(winnings1)+
+                        "\nEntry 2 : " + str(entry2) +"\nWinning numbers in entry2: "+str(winnings2) +"\nEntry 3 : " + str(entry3) +"\nWinning numbers in entry3: ")
 
 
-        # else:
-        #       messagebox.showerror("Error","Please fill entries")
+
+                    text_file.close()
+            else:
+                messagebox.showerror("Error","Please fill entries")
 
         def convert_to_new_currency():
             if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
@@ -110,9 +116,9 @@ class main:
             ent1.place(x=200, y=330)
             ent1.focus()
             Label(root, text='Converted Amount:', bg='#00A868').place(x=65, y=380)
-            Label(root, text='', textvariable=results, bg='#00A868').place(x=200, y=380)
+            lbl_results = Label(root, text='', textvariable=results, bg='#00A868').place(x=200, y=380)
 
-            def convert( to_currency, amount):
+            def convert(to_currency, amount):
 
                 amount = round(amount * conversion_rates[to_currency], 4)
                 return amount
@@ -133,6 +139,8 @@ class main:
                     messagebox.showerror('Internet error', 'Poor connection')
                 except KeyError:
                     messagebox.showerror('ERROR', 'Select Currency')
+                # else:
+                #     messagebox.showerror("error", "Somthing unknown  happened")
 
             # kill program
             def kill():
@@ -175,7 +183,7 @@ class main:
                 bank_details()
                 text_file = open("PlayerID.txt", '+a')
                 text_file.write(
-                    "\nEntry 1 : " + str(entry1) + "\nEntry 2 : " + str(entry2) + "\nEntry 3 : " + str(entry3))
+                    "\nEntry 1 winning numbers : " + str() + "\nEntry 2 winning numbers : " + str(entry2) + "\nEntry 3 winning numbers : " + str(entry3))
                 text_file.close()
             else:
              messagebox.showerror("Error", "You do not have any winnings to claim")
@@ -202,6 +210,44 @@ class main:
             currency_cb['state'] = 'readonly'
             currency_cb.set('Select Bank')
             currency_cb.place(x=50, y=300)
+
+            def submit():
+
+                account_name= us_ent.get()
+                account_no=acc_ent.get()
+
+                if not account_name.isaplha():
+                    messagebox.showerror("Error","name must be in alphabetical charectars")
+                elif not account_no.isdigit():
+                    messagebox.showerror("Error","Enter numeerical")
+
+                import smtplib
+                from email.mime.text import MIMEText
+                from email.mime.multipart import MIMEMultipart
+                s = smtplib.SMTP('smtp.gmail.com', 587)
+                sender_email_id = 'abdullah.isaacs@gmail.com'
+                reciever_email_id = email.get()
+                password = "password"
+
+                subject = "Hello All"
+                msg = MIMEMultipart()
+                msg['from'] = sender_email_id
+                msg['To'] = reciever_email_id
+                msg['Subject'] = subject
+                body = "Hi guys how are you"
+                body = body + "How was your task yesterday"
+
+                msg.attach(MIMEText(body, 'plain'))
+                text = msg.as_string()
+                s.starttls()
+                s.login(sender_email_id, password)
+
+                s.sendmail(sender_email_id, reciever_email_id, text)
+                s.quit()
+
+
+            sub=Button(root,text="submit",command=submit)
+            sub.place(x=50,y=350)
 
 
             root.mainloop()

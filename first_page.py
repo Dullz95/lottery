@@ -6,6 +6,9 @@ from tkinter import messagebox
 from datetime import datetime, timedelta, date
 from PIL import ImageTk,Image
 import re
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 #create window
 
@@ -58,10 +61,12 @@ class Logging:
                     messagebox.showerror("Error","Invalid Email")
             if calc() == 100 and email_checker() == 100:
                 messagebox.showinfo("CONGRATULATIONS","LETS PLAY!!!")
-                text_file = open("PlayerID.txt",'+w')
+                text_file = open("PlayerID.txt",'+a')
                 text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get())
                 text_file.close()
+                root.destroy()
                 import main
+
 # def clear():
         #
         #  self.first_entry.delete(0, END)
