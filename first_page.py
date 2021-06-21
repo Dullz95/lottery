@@ -29,6 +29,10 @@ class Logging:
         #create labels and entries
         self.first_name = Label(master, text="First Name", bg="black", fg="gold", font="Times 20 bold italic")
         self.first_name.place(x=50, y=20)
+        self.address=Label(master,text="Physical address", bg="black", fg="gold", font="Times 20 bold italic")
+        self.address.place(x=450,y=20)
+        self.ad_ent=Entry(master,textvariable="add",bg="red",width=35)
+        self.ad_ent.place(x=450,y=80)
         self.first_entry = Entry(master, textvariable="fname", bg="red", width=15)
         self.first_entry.place(x=230, y=20)
         self.email = Label(master, text="Email address", bg="black", fg="gold", font="Times 20 bold italic")
@@ -40,6 +44,7 @@ class Logging:
         self.id_ent = Entry(master, textvariable="id", bg="red", width=13)
         self.id_ent.place(x=230, y=170)
         def qualify():
+
             year = int(self.id_ent.get()[0:2])
             month = int(self.id_ent.get()[2:4])
             day = int(self.id_ent.get()[4:6])
@@ -62,10 +67,12 @@ class Logging:
             if calc() == 100 and email_checker() == 100:
                 messagebox.showinfo("CONGRATULATIONS","LETS PLAY!!!")
                 text_file = open("PlayerID.txt",'+a')
-                text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get())
+                text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get() + "\nAddress: "
+                                + self.ad_ent.get())
                 text_file.close()
                 root.destroy()
                 import main
+        def clear_screen():
 
 # def clear():
         #
@@ -73,8 +80,8 @@ class Logging:
         #  self.email_ent.delete(0, END)
         #  self.id_ent.delete((0, END)
 
-        self.qual = Button(master, text="Check if i qualify", command=qualify, bg="gold",pady=5,padx=5, width=15,height=5)
-        self.qual.place(x=450,y=100)
+        self.qual = Button(master, text="Check if i qualify", command=qualify, bg="gold",pady=5,padx=5, width=35,height=2)
+        self.qual.place(x=450,y=150)
 
 
 l = Logging(root)

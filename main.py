@@ -1,16 +1,27 @@
 # main program
+import tkinter
 from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
 import random
+from tkinter.font import Font
+
+import Image
 import requests
 from tkinter import ttk
+import PIL
+from PIL import ImageTk
 
 root = tk.Tk()
 root.title("Play The LOTTO!!!")
 root.geometry("800x1000")
 root.configure(bg="black")
 
+# image = Image.open('pngegg.png')
+# test1 = ImageTk.PhotoImage(image)
+# labelz=tkinter.Label(image=test1)
+# labelz.image=test1
+# labelz.place(x=0,y=0)
 entry1 = []
 entry2 = []
 entry3 = []
@@ -20,7 +31,9 @@ winnings2=[]
 winnings3=[]
 earnings = [0, 0, 20, 100.50, 2384, 8584, 10000000]
 total = ''
+lbl_results= ''
 banks = ["Nedbank","ABSA","FNB","Standard Bank"]
+fonty = Font(family='Helvetica', size=40)
 
 
 class main:
@@ -30,7 +43,6 @@ class main:
             if len(entry1) < 6 and add not in entry1:
                 entry1.append(add)
                 self.ent1.config(text=entry1)
-
             elif len(entry1) == 6 and len(entry2) < 6 and add not in entry2:
                 entry2.append(add)
                 self.ent2.config(text=entry2)
@@ -78,12 +90,14 @@ class main:
                 messagebox.showerror("Error","Please fill entries")
 
         def convert_to_new_currency():
+            global lbl_results
             if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
                 convert_currency()
             else:
              messagebox.showerror("Error", "You do not have any winnings to convert")
 
         def convert_currency():
+            global lbl_results
             root = Tk()
 
             # StringVar
@@ -95,7 +109,7 @@ class main:
             root.config(bg='GREY')
             root.resizable(0, 0)
 
-            information = requests.get('https://v6.exchangerate-api.com/v6/89dcd9e8cc7777ded2575ce1/latest/USD')
+            information = requests.get('https://v6.exchangerate-api.com/v6/89dcd9e8cc7777ded2575ce1/latest/ZAR')
             information_json = information.json()
 
             conversion_rates = information_json['conversion_rates']
@@ -116,7 +130,7 @@ class main:
             ent1.place(x=200, y=330)
             ent1.focus()
             Label(root, text='Converted Amount:', bg='#00A868').place(x=65, y=380)
-            lbl_results = Label(root, text='', textvariable=results, bg='#00A868').place(x=200, y=380)
+            lbl_results = Label(root, text='', bg='#00A868').place(x=200, y=380)
 
             def convert(to_currency, amount):
 
@@ -125,12 +139,12 @@ class main:
 
             def perform():
                 try:
-                    amount = ent1
+                    amount = ent1.cget('text')
                     to_curr = currency_cb.get()
 
                     converted_amount = convert(to_curr, amount)
 
-                    results.set(converted_amount)
+                    lbl_results.config(text=converted_amount)
                 except ValueError:
                     if ent1 != int and ent1 != float:
                         messagebox.showerror('invalid', 'Enter numbers only')
@@ -158,20 +172,7 @@ class main:
             root.mainloop()  # continuously runs program in window
 
         def play_again():
-            self.ent1.config(text="")
-            entry1.clear()
-            self.ent2.config(text="")
-            entry2.clear()
-            self.ent3.config(text="")
-            entry3.clear()
-            self.mainwin.config(text="")
-            randomlist.clear()
-            self.ent1_win.config(text="")
-            winnings1.clear()
-            self.ent2_win.config(text="")
-            winnings2.clear()
-            self.ent3_win.config(text="")
-            winnings3.clear()
+            self.ent1.place(x=10, y=10)
 
 
         def destroy():
@@ -225,10 +226,11 @@ class main:
                 from email.mime.text import MIMEText
                 from email.mime.multipart import MIMEMultipart
                 s = smtplib.SMTP('smtp.gmail.com', 587)
-                sender_email_id = 'abdullah.isaacs@gmail.com'
-                reciever_email_id = email.get()
-                password = "password"
-
+                sender_email_id = 'abdullahtest585@gmail.com'
+                f = open('PlayerID.txt', '+r')
+                line = f.readlines()[2]
+                reciever_email_id = line[6:len(line)]
+                password = "testing0909"
                 subject = "Hello All"
                 msg = MIMEMultipart()
                 msg['from'] = sender_email_id
@@ -263,29 +265,46 @@ class main:
         self.frame_two.place(x=50, y=445)
         self.frame_three = Frame(master, width=330, height=250, bg="", highlightbackground="gold",highlightthickness=15)
         self.frame_three.place(x=420, y=445)
-        self.frame_four = Frame(master, width=700, height=230, bg="", highlightbackground="gold", highlightthickness=15)
+        self.frame_four = Frame(master, width=700, height=180, bg="", highlightbackground="gold", highlightthickness=15)
         self.frame_four.place(x=50, y=720)
+        self.lotto_head=Label(master, text="PLAY THE LOTTO",font=fonty,fg="gold",bg="black")
+        self.lotto_head.place(x=200,y=40)
+
 
         # labels for frame 2
-        self.ent1 = Label(self.frame_two, text="", textvariable=entry1, fg="gold",bg="black")
-        self.ent1.place(x=50,y=30)
+        self.draw=Label(self.frame_two, text="DRAW 1: ", fg="gold", bg="black")
+        self.draw.place(x=40,y=30)
+        self.ent1 = Label(self.frame_two, text="", fg="gold",bg="black")
+        self.ent1.place(x=110,y=30)
+        self.draw2 = Label(self.frame_two, text="DRAW 2: ", fg="gold", bg="black")
+        self.draw2.place(x=40, y=100)
         self.ent2 = Label(self.frame_two,text="",fg="gold",bg="black", textvariable=entry2)
-        self.ent2.place(x=50,y=100)
+        self.ent2.place(x=110,y=100)
+        self.draw3 = Label(self.frame_two, text="DRAW 3: ", fg="gold", bg="black")
+        self.draw3.place(x=40, y=170)
         self.ent3=Label(self.frame_two,text="",fg="gold",bg="black", textvariable=entry3)
-        self.ent3.place(x=50,y=170)
+        self.ent3.place(x=110,y=170)
 
         # labels for frame 3
+        self.winning_no=Label(self.frame_three,text="Winnning no's: ",fg="gold",bg="black")
+        self.winning_no.place(x=10,y=30)
         self.mainwin=Label(self.frame_three,text=randomlist.sort(),bg="gold")
-        self.mainwin.place(x=100,y=30)
+        self.mainwin.place(x=130,y=30)
+        self.match=Label(self.frame_three,text="Draw 1 matches:",fg="gold",bg="black")
+        self.match.place(x=10,y=70)
         self.ent1_win=Label(self.frame_three,text="",bg="gold")
-        self.ent1_win.place(x=100,y=60)
+        self.ent1_win.place(x=130,y=70)
+        self.match2 = Label(self.frame_three, text="Draw 2 matches:", fg="gold", bg="black")
+        self.match2.place(x=10, y=120)
         self.ent2_win = Label(self.frame_three, text="", bg="gold")
-        self.ent2_win.place(x=100, y=120)
+        self.ent2_win.place(x=130, y=120)
+        self.match3 = Label(self.frame_three, text="Draw 3 matches:", fg="gold", bg="black")
+        self.match3.place(x=10, y=180)
         self.ent3_win = Label(self.frame_three, text="", bg="gold")
-        self.ent3_win.place(x=100, y=180)
+        self.ent3_win.place(x=130, y=180)
 
         self.total=Label(self.frame_four,text="",bg="gold")
-        self.total.place(x=100,y=100)
+        self.total.place(x=50,y=20)
         #buttons
 
         self.one = Button(master, text="1", bg="gold", width=1, command=lambda: adding(1))
@@ -390,9 +409,9 @@ class main:
         #       function buttons
 
         self.play = Button(self.frame_two, text="PLAY", bg="gold", command=play)
-        self.play.place(x=200, y=170)
+        self.play.place(x=230, y=160)
         self.play_ag = Button(self.frame_four, text="PLAY AGAIN", bg="gold", command=play_again)
-        self.play_ag.place(x=50, y=50)
+        self.play_ag.place(x=50, y=100)
         self.claim = Button(self.frame_four, text="convert", bg="gold", command=convert_to_new_currency)
         self.claim.place(x=500, y=100)
         self.exit = Button(self.frame_four, text="exit", bg="red", command=destroy)

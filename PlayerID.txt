@@ -1,33 +1,16 @@
 User: abdullah
 mail: abdullah.isaacs@gmail.com
 ID: 9512285835083
-Entry 1 : [7, 21, 33, 32, 42, 43]
-Winning in numbers entry1: [42, 43]
-Entry 2 : [42, 41, 31, 8, 7, 6]
-Winning numbers in entry2: [42]
-Entry 3 : [48, 49, 45, 44, 3, 2]
-Winning numbers in entry3: 
-Entry 1 : [22, 34, 33, 43, 42, 45]
-Winning in numbers entry1: [42]
-Entry 2 : [47, 48, 26, 10, 6, 4]
-Winning numbers in entry2: [4]
-Entry 3 : [41, 32, 43, 44, 47, 48]
-Winning numbers in entry3: 
-Entry 1 : [1, 5, 6, 8, 9, 47]
-Winning in numbers entry1: [8]
-Entry 2 : [46, 45, 44, 43, 49, 3]
-Winning numbers in entry2: []
-Entry 3 : [19, 20, 25, 26, 27, 49]
-Winning numbers in entry3: 
-Entry 1 : [4, 6, 44, 46, 47, 48]
+Address: 29 ricardo road crawford
+Entry 1 : [7, 33, 43, 44, 46, 22]
 Winning in numbers entry1: []
-Entry 2 : [38, 37, 35, 45, 44, 42]
-Winning numbers in entry2: [35]
-Entry 3 : [41, 19, 20, 33, 35, 24]
+Entry 2 : [21, 32, 42, 43, 33, 31]
+Winning numbers in entry2: []
+Entry 3 : [30, 40, 42, 43, 44, 45]
 Winning numbers in entry3: 
-Entry 1 : [4, 5, 7, 23, 24, 36]
-Winning in numbers entry1: [4, 5]
-Entry 2 : [37, 39, 48, 46, 21, 32]
-Winning numbers in entry2: [37, 39]
-Entry 3 : [31, 30, 29, 17, 3, 4]
+Entry 1 : [23, 33, 34, 45, 46, 47]
+Winning in numbers entry1: [46]
+Entry 2 : [37, 38, 48, 45, 44, 43]
+Winning numbers in entry2: [38]
+Entry 3 : [42, 41, 31, 30, 40, 29]
 Winning numbers in entry3: 
