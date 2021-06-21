@@ -18,7 +18,7 @@ root.geometry("800x400")
 root.configure(bg="black")
 
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-
+# create object for log in page
 class Logging:
     def __init__(self, master):
         #image
@@ -44,7 +44,7 @@ class Logging:
         self.id_ent = Entry(master, textvariable="id", bg="red", width=13)
         self.id_ent.place(x=230, y=170)
         def qualify():
-
+            # function to convert first 6 digits of ID number to a birthdate to establish wheether or not the player is old enough to play
             year = int(self.id_ent.get()[0:2])
             month = int(self.id_ent.get()[2:4])
             day = int(self.id_ent.get()[4:6])
@@ -60,6 +60,7 @@ class Logging:
                 else:
                     return 100
             def email_checker():
+                # using regex to validate the email address, checking if the correct symbol was included
                 if (re.search(regex, self.email_ent.get())):
                     return 100
                 else:
@@ -67,12 +68,11 @@ class Logging:
             if calc() == 100 and email_checker() == 100:
                 messagebox.showinfo("CONGRATULATIONS","LETS PLAY!!!")
                 text_file = open("PlayerID.txt",'+a')
-                text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get() + "\nAddress: "
+                text_file.write("User: " + self.first_entry.get() + "\nmail: " + self.email_ent.get() + "\nID: " + self.id_ent.get() + "\nAdress: "
                                 + self.ad_ent.get())
                 text_file.close()
                 root.destroy()
                 import main
-        def clear_screen():
 
 # def clear():
         #

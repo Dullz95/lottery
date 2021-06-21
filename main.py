@@ -1,4 +1,5 @@
 # main program
+# import modules
 import tkinter
 from tkinter import *
 import tkinter as tk
@@ -11,7 +12,10 @@ import requests
 from tkinter import ttk
 import PIL
 from PIL import ImageTk
+from playsound import playsound
 
+# playsound("name.mp3")
+# create main window
 root = tk.Tk()
 root.title("Play The LOTTO!!!")
 root.geometry("800x1000")
@@ -22,6 +26,7 @@ root.configure(bg="black")
 # labelz=tkinter.Label(image=test1)
 # labelz.image=test1
 # labelz.place(x=0,y=0)
+# create empty lists
 entry1 = []
 entry2 = []
 entry3 = []
@@ -35,20 +40,21 @@ lbl_results= ''
 banks = ["Nedbank","ABSA","FNB","Standard Bank"]
 fonty = Font(family='Helvetica', size=40)
 
-
+#create main object
 class main:
     def __init__(self,master):
-
+        # function to create three sets of lists as entries
         def adding(add):
             if len(entry1) < 6 and add not in entry1:
                 entry1.append(add)
-                self.ent1.config(text=entry1)
+                self.ent1.config(text=entry1,fg="gold")
+
             elif len(entry1) == 6 and len(entry2) < 6 and add not in entry2:
                 entry2.append(add)
-                self.ent2.config(text=entry2)
+                self.ent2.config(text=entry2,fg="gold")
             elif len(entry2) == 6 and len(entry3) < 6 and add not in entry3:
                 entry3.append(add)
-                self.ent3.config(text=entry3)
+                self.ent3.config(text=entry3,fg="gold")
 
             else:
                 if len(entry3) == 6:
@@ -57,40 +63,35 @@ class main:
                     messagebox.showerror("Error","you can only select the same number once per entry")
         def play():
             global total
+            # ensure play button cannot be used unless all three sets are filled
             if len(entry1) ==6 and len(entry2) ==6 and len(entry3) ==6:
+                    playsound("./Digital Counting - Sound Effect - SFX.mp3")
                     while len(randomlist) < 6:
                         n = random.randint(1, 49)
                         if n not in randomlist:
                             randomlist.append(n)
                             randomlist.sort()
-                            self.mainwin.config(text=randomlist)
+                            self.mainwin.config(text=randomlist, bg='gold')
                     for x in randomlist:
                         if x in entry1:
                             winnings1.append(x)
-                            self.ent1_win.config(text=str(len(winnings1)) + "  R" + str(earnings[len(winnings1)]))
+                            self.ent1_win.config(text=str(len(winnings1)) + "  R" + str(earnings[len(winnings1)]), bg='gold')
                     for x in randomlist:
                         if x in entry2:
                             winnings2.append(x)
-                            self.ent2_win.config(text=str(len(winnings2)) + "   R" + str(earnings[len(winnings2)]))
+                            self.ent2_win.config(text=str(len(winnings2)) + "   R" + str(earnings[len(winnings2)]), bg='gold')
                     for x in randomlist:
                         if x in entry3:
                             winnings3.append(x)
-                            self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]))
+                            self.ent3_win.config(text=str(len(winnings3)) + "   R" + str(earnings[len(winnings3)]), bg='gold')
                     total ="  total winnings:  R" + str(earnings[len(winnings1)]+earnings[len(winnings2)]+earnings[len(winnings3)])
-                    self.total.config(text=total)
-                    text_file = open("PlayerID.txt", '+a')
-                    text_file.write(
-                        "\nEntry 1 : " + str(entry1) + "\nWinning in numbers entry1: "+str(winnings1)+
-                        "\nEntry 2 : " + str(entry2) +"\nWinning numbers in entry2: "+str(winnings2) +"\nEntry 3 : " + str(entry3) +"\nWinning numbers in entry3: ")
-
-
-
-                    text_file.close()
+                    self.total.config(text=total, bg='gold')
             else:
                 messagebox.showerror("Error","Please fill entries")
 
         def convert_to_new_currency():
             global lbl_results
+            # if function to ensure currency function only available if there are winnings to convert
             if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
                 convert_currency()
             else:
@@ -108,13 +109,14 @@ class main:
             root.title("Currency Converter")
             root.config(bg='GREY')
             root.resizable(0, 0)
-
+            # pull information in json format
             information = requests.get('https://v6.exchangerate-api.com/v6/89dcd9e8cc7777ded2575ce1/latest/ZAR')
             information_json = information.json()
 
             conversion_rates = information_json['conversion_rates']
+            # create empty list for currencies
             currency = []
-
+            # pull all currencies needed
             for i in conversion_rates.keys():
                 currency.append(i)
 
@@ -133,12 +135,13 @@ class main:
             lbl_results = Label(root, text='', bg='#00A868').place(x=200, y=380)
 
             def convert(to_currency, amount):
-
+                # formular for the conversion rates
                 amount = round(amount * conversion_rates[to_currency], 4)
                 return amount
 
             def perform():
                 try:
+                    # formula (currencies)
                     amount = ent1.cget('text')
                     to_curr = currency_cb.get()
 
@@ -172,27 +175,49 @@ class main:
             root.mainloop()  # continuously runs program in window
 
         def play_again():
-            self.ent1.place(x=10, y=10)
+            # clear lists and labels so that user is allowed toplay again
+            self.ent1.configure(fg='black')
+            entry1.clear()
+            self.ent2.config(fg="black")
+            entry2.clear()
+            self.ent3.config(fg="black")
+            entry3.clear()
+            self.mainwin.config(fg="black",bg="black")
+            randomlist.clear()
+            self.ent1_win.config(fg="black",bg="black")
+            winnings1.clear()
+            self.ent2_win.config(fg="black",bg="black")
+            winnings2.clear()
+            self.ent3_win.config(fg="black",bg="black")
+            winnings3.clear()
 
 
         def destroy():
+            # shut down game
             messagebox.showinfo("warning", "closing game")
             master.destroy()
 
         def claim():
+            # ensure player is only allowed to claim if there are winnings to claim
             if earnings[len(winnings1)] >=2 or earnings[len(winnings2)] >=2 or earnings[len(winnings3)] >= 2:
-                bank_details()
                 text_file = open("PlayerID.txt", '+a')
                 text_file.write(
-                    "\nEntry 1 winning numbers : " + str() + "\nEntry 2 winning numbers : " + str(entry2) + "\nEntry 3 winning numbers : " + str(entry3))
+                    "\nThe winning numbers are: "+str(randomlist) + "\nPrizes are as seen bellow: "+"\n Prizes: "
+                    +str(earnings) + "\n 1 match = R0, 2 matches = R20, 3 matches = R150, 4 matches = R2384, 5 matches = R8584 , 6 matches = R10 000 000"
+                                                                                                                                   
+                    "\nEntry 1 : " + str(entry1) + "\nWinning in numbers entry1: " + str(winnings1) +
+                    "\nEntry 2 : " + str(entry2) + "\nWinning numbers in entry2: " + str(
+                        winnings2) + "\nEntry 3 : " + str(entry3) + "\nWinning numbers in entry3: "+ str(winnings3) +"\nHere is your amount won: " + total[20:len(total)])
+
                 text_file.close()
+                bank_details()
             else:
              messagebox.showerror("Error", "You do not have any winnings to claim")
         def bank_details():
 
             root = tk.Tk()
-            root.title("Weather")
-            root.geometry("800x400")
+            root.title("Bank details")
+            root.geometry("400x400")
             root.configure(bg="black")
 
             # labels and entries
@@ -213,22 +238,27 @@ class main:
             currency_cb.place(x=50, y=300)
 
             def submit():
-
+                # Ensure entries are in the charectars required
                 account_name= us_ent.get()
                 account_no=acc_ent.get()
 
-                if not account_name.isaplha():
+                if str.isalpha(account_name )is False:
                     messagebox.showerror("Error","name must be in alphabetical charectars")
-                elif not account_no.isdigit():
+                elif str.isdigit(account_no )is False:
                     messagebox.showerror("Error","Enter numeerical")
 
+                text_file = open("PlayerID.txt", '+a')
+                text_file.write("\n Account holder: " + us_ent.get() + "\n Account number: " + acc_ent.get() +"\n Bank: " + currency_cb.get())
+                emailtext = text_file.read()
+
+                # import module to send email containing Player details as an email
                 import smtplib
                 from email.mime.text import MIMEText
                 from email.mime.multipart import MIMEMultipart
                 s = smtplib.SMTP('smtp.gmail.com', 587)
                 sender_email_id = 'abdullahtest585@gmail.com'
                 f = open('PlayerID.txt', '+r')
-                line = f.readlines()[2]
+                line = f.readlines()[1]
                 reciever_email_id = line[6:len(line)]
                 password = "testing0909"
                 subject = "Hello All"
@@ -236,8 +266,8 @@ class main:
                 msg['from'] = sender_email_id
                 msg['To'] = reciever_email_id
                 msg['Subject'] = subject
-                body = "Hi guys how are you"
-                body = body + "How was your task yesterday"
+                body = emailtext
+                f.close()
 
                 msg.attach(MIMEText(body, 'plain'))
                 text = msg.as_string()
@@ -246,7 +276,9 @@ class main:
 
                 s.sendmail(sender_email_id, reciever_email_id, text)
                 s.quit()
+                playsound("yaay.mp3")
 
+                text_file.close()
 
             sub=Button(root,text="submit",command=submit)
             sub.place(x=50,y=350)
@@ -274,7 +306,7 @@ class main:
         # labels for frame 2
         self.draw=Label(self.frame_two, text="DRAW 1: ", fg="gold", bg="black")
         self.draw.place(x=40,y=30)
-        self.ent1 = Label(self.frame_two, text="", fg="gold",bg="black")
+        self.ent1 = Label(self.frame_two, text="", textvariable=entry1, fg="gold",bg="black")
         self.ent1.place(x=110,y=30)
         self.draw2 = Label(self.frame_two, text="DRAW 2: ", fg="gold", bg="black")
         self.draw2.place(x=40, y=100)
